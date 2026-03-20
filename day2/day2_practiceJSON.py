@@ -38,15 +38,34 @@ print(json_pvalo)
 print(type(json_pvalo)) #para verificar que sea un objeto JSON, son string (str)
 """
 #Usando los codificadores de JSON
-#Encoder
+"""
+#Encoder, pasar diccionarios a JSON
 json_data = json.JSONEncoder().encode({"Lenguages": ["Python", "JavaScript"]})
 print(json_data)
 print(type(json_data))
 
-#Decoder
+#Decoder, pasar JSON a diccionarios
 python_dict = json.JSONDecoder().decode(json_data)
 
 print(python_dict)
 print(type(python_dict))
+"""
 
-### Queda pendiente documentar la parte avanzada de la clase especializada para futuras referencias, video en Youtube
+#Parte avanzada POO - Trabajar JSON en una clase personalizada, convertir la instancia de una clase personalizada en un objeto JSON
+
+class Curso():
+
+    def __init__(self, codigo, nombre, creditos):
+        self.codigo = codigo
+        self.nombre = nombre
+        self.creditos = creditos
+
+curso_1 = Curso("4567", "Programacion", 4)
+print(curso_1) #Vemos que se ha creado la instancia del objeto JSON
+json_object_data = json.dumps(curso_1.__dict__) #Creamos el objeto JSON
+print(json_object_data) 
+print(type(json_object_data))
+python_dicc = json.loads(json_object_data) #Transformamos el JSON a Dict Python
+print(python_dicc)
+print(type(python_dicc))
+
