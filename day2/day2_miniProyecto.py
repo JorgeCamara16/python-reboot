@@ -36,27 +36,27 @@ def mostrar_usuario(user):
 def guardar_historial(historial):
     os.makedirs("data", exist_ok=True)
     with open("data/historial.json", "w") as f:
-        json.dump(historial, f, indent=4)
+        json.dump(historial, f, indent=4) #Guarda lista → JSON bonito
 
 def cargar_historial():
     try:
         with open("data/historial.json", "r") as f:
-            return json.load(f)
+            return json.load(f) #JSON → lista Python
     except json.JSONDecodeError: #asume los errores con el archivo JSON
         print("Bot: Archivo corrupto, reiniciando...")
 
         with open("data/historial.json", "w") as f:
-            json.dump([], f) #Repara el archivo de historial desde 0
+            json.dump([], f) #Repara el archivo de historial desde 0, Lo reinicia
 
-    return []
+    return [] #Siempre garantiza una lista
 
 def asistente():
     #Ahora vamos a ponerle memoria al asistente y que guarde/cargue historial
-    historial = cargar_historial()
+    historial = cargar_historial() #Carga memoria del programa
 
     print("Bot: Hola, escribe un nombre, 'historial' para ver consultas realizadas o 'salir' para terminar.")
 
-    while True:
+    while True: #Loop infinito (el bot vive aquí)
         nombre_input = input("Usuario: ")
                                         #Este if es super importante, lee el input y si después de quitar los espacios no hay nada el boot pide de nuevo el usuario a buscar. WOW. 
                                         # Es igual a if nombre.strip() == "":
@@ -65,11 +65,11 @@ def asistente():
 
         entrada = nombre_input.strip().lower() #lower para que esté siempre en minúsculas
 
-        if entrada == "salir": 
+        if entrada == "salir": #Rompe el loop
             print("Bot: Hasta luego :)")
             break
         
-        if entrada == "historial":
+        if entrada == "historial": #Muestra memoria
             if not historial:
                 print("Bot: No hay historial aún")           
             else:
@@ -84,10 +84,10 @@ def asistente():
 
         data = conectar_api(nombre_input)
 
-        if data:
-            usuario = crear_user(data)
-            historial.append(usuario)
-            guardar_historial(historial)
-            mostrar_usuario(usuario)
+        if data: #Solo si no hubo error
+            usuario = crear_user(data) # Limpia datos
+            historial.append(usuario) # Guarda en memoria
+            guardar_historial(historial) # Guarda en archivo
+            mostrar_usuario(usuario) # Muestra resultado
 
 asistente()
